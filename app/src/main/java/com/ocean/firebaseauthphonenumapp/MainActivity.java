@@ -3,7 +3,9 @@ package com.ocean.firebaseauthphonenumapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBack;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         binding.btnGetOtp.setOnClickListener(this);
         binding.btnVerifyOtp.setOnClickListener(this);
+
+        sharedPreferences =getSharedPreferences("LOGINACTIVITY", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         /** callback method is called on Phone auth provider.
          initializing our callbacks for on
@@ -87,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "onCodeSent:" + verificationId + "/---/" +forceResendingToken);
 
                 verificationId = s;
-                mResendToken = forceResendingToken;
+                //mResendToken = forceResendingToken;
             }
         };
 
@@ -127,20 +135,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        updateUI(currentUser);
-    }
-
-    private void updateUI(FirebaseUser currentUser) {
-    }
-
     private void verifyCode(String code) {
         try {
-            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);//TODO: verificationId is null
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
             signInWithCredential(credential);
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT ).show();
@@ -154,6 +151,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (task.isSuccessful()){
+                    editor.putBoolean("isLogin", true);
+                    editor.putString("user_phone_num", phone);
+                    editor.commit();
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     intent.putExtra("phoneNum", phone);
                     startActivity(intent);
