@@ -12,4 +12,6 @@ FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     finish();
     }
     
+ The above piece of code needed to be writen on login activity.
+    
 Also see the commit to know how logged in session can be implemented with Shared Preference.
