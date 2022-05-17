@@ -27,13 +27,14 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        sharedPreferences =getSharedPreferences("LOGINACTIVITY", Context.MODE_PRIVATE);
-        boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
-        if(isLogin){
-            Toast.makeText(HomeActivity.this, "User is already logged in", Toast.LENGTH_SHORT).show();
-        }else if(savedInstanceState == null){
-            logout();
-        }
+//        sharedPreferences =getSharedPreferences("LOGINACTIVITY", Context.MODE_PRIVATE);
+//        boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+//
+//        if(isLogin){
+//            Toast.makeText(HomeActivity.this, "User is already logged in", Toast.LENGTH_SHORT).show();
+//        }else if(savedInstanceState == null){
+//            logout();
+//        }
 
     }
 

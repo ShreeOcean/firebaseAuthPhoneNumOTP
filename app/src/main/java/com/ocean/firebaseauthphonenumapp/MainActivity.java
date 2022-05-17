@@ -56,8 +56,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.btnGetOtp.setOnClickListener(this);
         binding.btnVerifyOtp.setOnClickListener(this);
 
-        sharedPreferences =getSharedPreferences("LOGINACTIVITY", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+//        sharedPreferences =getSharedPreferences("LOGINACTIVITY", Context.MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
+
+
+        if (firebaseAuth.getCurrentUser() != null){
+            //logged in session without shared preference
+            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            finish();
+        }
 
         /** callback method is called on Phone auth provider.
          initializing our callbacks for on
@@ -151,11 +158,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (task.isSuccessful()){
-                    editor.putBoolean("isLogin", true);
-                    editor.putString("user_phone_num", phone);
-                    editor.commit();
+//                    editor.putBoolean("isLogin", true);
+//                    editor.putString("user_phone_num", phone);
+//                    editor.commit();
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    intent.putExtra("phoneNum", phone);
+                    //intent.putExtra("phoneNum", phone);
                     startActivity(intent);
                     finish();
                 }else {
