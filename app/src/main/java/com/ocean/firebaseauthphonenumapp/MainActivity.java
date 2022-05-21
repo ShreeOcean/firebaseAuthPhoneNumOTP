@@ -58,10 +58,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sharedPreferences =getSharedPreferences("LOGINACTIVITY", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        //editor.putBoolean("isLogin", false);
 
         if (sharedPreferences.getBoolean("isLogin", false)){
-
+            //TODO: logged-in session using shared preference
             editor.putBoolean("isLogin", true);
             editor.clear();
             editor.commit();
