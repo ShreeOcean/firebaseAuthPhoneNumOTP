@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FirebaseAuthPhoneNumApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_shared_preference">ocean.loginregisfragmentdemo_login_shared_preference</string>
+    <string name="login_status_shared_preference">ocean.loginregisfragmentdemo_login_status_shared_preference</string>
+
 </resources>

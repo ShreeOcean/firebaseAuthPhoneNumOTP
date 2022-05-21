@@ -10,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="welcom user :)"
+        android:text="welcome user :)"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="20dp"
