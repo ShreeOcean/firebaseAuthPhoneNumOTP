@@ -19,11 +19,11 @@ import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.ocean.firebaseauthphonenumapp.databinding.ActivityMainBinding;
+import com.ocean.firebaseauthphonenumapp.util.SessionManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+    SessionManager sessionManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        sessionManager=new SessionManager(getApplicationContext());
         // below line is for getting instance
         // of our FirebaseAuth.
         firebaseAuth = FirebaseAuth.getInstance();
@@ -56,14 +60,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.btnGetOtp.setOnClickListener(this);
         binding.btnVerifyOtp.setOnClickListener(this);
 
-        sharedPreferences =getSharedPreferences("LOGINACTIVITY", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+//        sharedPreferences =getSharedPreferences("LOGINACTIVITY", Context.MODE_PRIVATE);
+//        editor = sharedPreferences.edit();
 
-        if (sharedPreferences.getBoolean("isLogin", false)){
+        if (sessionManager.isLogin()){//sharedPreferences.getBoolean("isLogin", false)
             //TODO: logged-in session using shared preference
-            editor.putBoolean("isLogin", true);
-            editor.clear();
-            editor.commit();
+//            editor.putBoolean("isLogin", true);
+//            editor.clear();
+//            editor.commit();
+
+            sessionManager.setLogin();
+
             startActivity(new Intent(MainActivity.this, HomeActivity.class));
             finish();
         }
@@ -168,12 +175,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (task.isSuccessful()){
-                    editor.putBoolean("isLogin", true);
-                    editor.putString("user_phone_num", phone);
-                    editor.apply();
-                    editor.commit();
+//                    editor.putBoolean("isLogin", true);
+//                    editor.putString("user_phone_num", phone);
+//                    editor.apply();
+//                    editor.commit();
+                    //TODO: session manager
+                    sessionManager.setContact(phone);
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    //intent.putExtra("phoneNum", phone);
+
                     startActivity(intent);
                     finish();
                 }else {
